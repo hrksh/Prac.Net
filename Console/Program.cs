@@ -5,8 +5,9 @@ using System.Text;
 // Console.WriteLine("Hello, World!");
 
 /*
-    デザインパターンの練習用
-    + VS GUI側からのGit操作も兼ねる
+ * develop
+ * デザインパターンの練習用
+ * + VS GUI側からのGit操作も兼ねる
  */
 
 // var Satoshi = new Person("satoshi", 28);
