@@ -5,12 +5,16 @@ using System.Text;
 // Console.WriteLine("Hello, World!");
 
 /*
-    適当に練習用
+    デザインパターンの練習用
+    + VS GUI側からのGit操作も兼ねる
  */
 
-var Satoshi = new Person("satoshi", 28);
-var takeshi = new Person("takeshi", 32);
+// var Satoshi = new Person("satoshi", 28);
+// var takeshi = new Person("takeshi", 32);
 
+var humans = new Humans();
+humans.AddPerson(new Person("satoshi", 28));
+humans.AddPerson(new Person("takeshi", 32));
 
 abstract class PersonBase
 {
@@ -29,7 +33,7 @@ class Person : PersonBase
     const string FIntroductionAge = "Age : {0}";
     public Person(string name, int age) : base(name, age)
     {
-        this.Introduction();
+        //this.Introduction();
     }
     internal override bool Introduction()
     {
@@ -51,8 +55,8 @@ class SuperPerson : Person
 
 class Humans
 {
-    List<Person> _humans = null;
-    public Humans() { this._humans = new List<Person>(); }
+    List<Person> _humans = new List<Person>();
+    public Humans() { }
     public void AddPerson(Person psn) { this._humans.Add(psn); }
     public void ShowCntHumans() { Console.WriteLine(this._humans.Count()); }
     public bool IsExistPerson(Person psn) { return this._humans.Contains(psn); }
