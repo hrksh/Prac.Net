@@ -8,16 +8,16 @@ using System.Text;
  * develop
  * デザインパターンの練習用
  * + VS GUI側からのGit操作も兼ねる
+ * シングルトンで実装を追加・・・
  */
 
 // var Satoshi = new Person("satoshi", 28);
 // var takeshi = new Person("takeshi", 32);
 
-var humans = new Humans();
-humans.AddPerson(new Person("satoshi", 28));
-humans.AddPerson(new Person("takeshi", 32));
+Humans.Inst().AddPerson(new Person("satoshi", 28));
+Humans.Inst().AddPerson(new Person("takeshi", 32));
 
-abstract class PersonBase
+public abstract class PersonBase
 {
     private string _name = string.Empty;
     internal string Name { get { return _name; } }
@@ -27,15 +27,12 @@ abstract class PersonBase
     internal virtual bool Introduction() { return false; }
 }
 
-class Person : PersonBase
+public class Person : PersonBase
 {
     const string SeparatorStringBarStyle = " ---- New Person Generated. ---- ";
     const string FIntroductionName = "Name : {0}";
     const string FIntroductionAge = "Age : {0}";
-    public Person(string name, int age) : base(name, age)
-    {
-        //this.Introduction();
-    }
+    public Person(string name, int age) : base(name, age) { }
     internal override bool Introduction()
     {
         if (string.IsNullOrEmpty(this.Name) || this.Age < 0) return false;
@@ -54,11 +51,18 @@ class SuperPerson : Person
     public SuperPerson(string name, int age) : base(name, age) { }
 }
 
-class Humans
-{
-    List<Person> _humans = new List<Person>();
-    public Humans() { }
-    public void AddPerson(Person psn) { this._humans.Add(psn); }
-    public void ShowCntHumans() { Console.WriteLine(this._humans.Count()); }
-    public bool IsExistPerson(Person psn) { return this._humans.Contains(psn); }
+public class Humans
+{    
+    private static Humans? _humans = null;
+    // Singleton
+    private Humans() { }
+    public static Humans Inst()
+    {
+        if (_humans == null) _humans = new Humans();
+        return _humans;
+    }
+    static List<Person> _humanList = new List<Person>();
+    public void AddPerson(Person psn) { _humanList.Add(psn); }
+    public void ShowCntHumans() { Console.WriteLine(_humanList.Count()); }
+    public bool IsExistPerson(Person psn) { return _humanList.Contains(psn); }
 }
