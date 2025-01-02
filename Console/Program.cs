@@ -9,6 +9,7 @@ using System.Text;
  * デザインパターンの練習用
  * + VS GUI側からのGit操作も兼ねる
  * シングルトンで実装を追加・・・
+ * test
  */
 
 // var Satoshi = new Person("satoshi", 28);
