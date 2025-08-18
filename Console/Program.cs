@@ -6,6 +6,7 @@ using System.Text;
 
 // 諸々を削除した
 
+Console.WriteLine("Hello World!");
 Console.ReadLine();
 
 namespace Prac
