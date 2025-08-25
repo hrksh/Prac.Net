@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "PMGxTdbULZQ=",
+  "success": true,
+  "projectFilePath": "/Users/hrksh/Desktop/git/Prac.Net/MyConsole/MyConsole.csproj",
+  "expectedPackageFiles": [
+    "/Users/hrksh/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
+    "/Users/hrksh/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
+    "/Users/hrksh/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.11/microsoft.netcore.app.host.osx-arm64.8.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}
