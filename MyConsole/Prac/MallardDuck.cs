@@ -8,8 +8,7 @@ public class MallardDuck : Duck
 {
     public MallardDuck()
     {
-        this.QuackBehavior = new QuackStandard();
-        this.FlyBehavior = new FlyWithWings();
+        // コンストラクタでSetするのはやめて、BaseでSetter、Getterを用意する
     }
     
     public override void Display()
