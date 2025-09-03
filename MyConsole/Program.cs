@@ -11,8 +11,8 @@ using MyConsole.Prac.DesignPattern.Behavior;
 var obj = new MyClass();
 
 Task TaskA = obj.MethodA(); // TaskA が受け取れるよう非同期メソッド化
-obj.MethodB();
-obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
+await obj.MethodB();
+await obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
 
 System.Console.ReadLine();
 
@@ -37,6 +37,7 @@ class MyClass()
         // これなら、この処理が終わるまではこのタスクは待つ
         await Task.Run(() =>
         {
+            Console.WriteLine("MethodA Started.");
             // 5秒間 待機する処理
             for (int i = 1; i <= 5; i++)
             {
@@ -47,15 +48,21 @@ class MyClass()
         });
     }
 
-    public void MethodB()
+    public async Task MethodB()
     {
         // MethodA を待たずに終わらせたい処理
+        // こいつは逆にすぐ終わらせたい。出力なら先にこいつが完了した表示がほしい。
+        // 先に終わらせたいので、この処理も非同期処理になる => async 化
+        Console.WriteLine("MethodB Started.");
+        await Task.Run(() => Task.Delay(500)); // 500 msec の短い処理 を待ったら完了する
         Console.WriteLine("MethodB Completed.");
     }
 
-    public void MethodC(Task task)
+    public async Task MethodC(Task taskA)
     {
         // MethodA を待ってから完了させたい処理
+        Console.WriteLine("MethodC Started.");
+        await taskA; // TaskAを待ってから終了
         Console.WriteLine("MethodC Completed.");
     }
 }
