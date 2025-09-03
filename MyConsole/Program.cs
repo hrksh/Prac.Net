@@ -9,9 +9,11 @@ using MyConsole.Prac.DesignPattern.Behavior;
 // おテスト
 
 var obj = new MyClass();
-Task TaskA = obj.MethodA(); // TaskA が受け取れるよう非同期メソッド化
-await obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
-obj.MethodB();
+Task TaskA = obj.MethodA(); // TaskA (待機したい処理1)
+await obj.Something(); // 待機しなくていいがこれも重い処理
+Task TaskC = obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待っている
+await obj.MethodB(); // C が Aの完了をまっているが、この処理は開始して終わらせたい
+await TaskC; // C の呼び出しの await は外して、TaskCとして取り出した。これをBの後で待たせる
 
 System.Console.ReadLine();
 
@@ -32,10 +34,17 @@ class MyClass()
         Console.WriteLine("MethodA Completed.");
     }
 
-    public void MethodB()
+    public async Task Something()
+    {
+        // ここにも重たい処理をしたい
+        await Task.Delay(3000);
+    }
+
+    public async Task MethodB()
     {
         // MethodA を待たずに終わらせたい処理
         Console.WriteLine("MethodB Started.");
+        await Task.Delay(50);
         Console.WriteLine("MethodB Completed.");
     }
 
