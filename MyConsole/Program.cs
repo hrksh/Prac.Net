@@ -32,20 +32,10 @@ class MyClass()
 
     public async Task MethodA()
     {
-        // 待ちたい処理 が Task化できた。
-        // await => 指定されてる処理を待たせるような感じ・・・
-        // これなら、この処理が終わるまではこのタスクは待つ
-        await Task.Run(() =>
-        {
-            Console.WriteLine("MethodA Started.");
-            // 5秒間 待機する処理
-            for (int i = 1; i <= 5; i++)
-            {
-                Task.Delay(1000);
-                Console.WriteLine(i);
-            }
-            Console.WriteLine("MethodA Completed.");
-        });
+        Console.WriteLine("MethodA Started.");
+        // 5秒間 待機する処理
+        await Task.Delay(5000);
+        Console.WriteLine("MethodA Completed.");
     }
 
     public async Task MethodB()
@@ -54,7 +44,7 @@ class MyClass()
         // こいつは逆にすぐ終わらせたい。出力なら先にこいつが完了した表示がほしい。
         // 先に終わらせたいので、この処理も非同期処理になる => async 化
         Console.WriteLine("MethodB Started.");
-        await Task.Run(() => Task.Delay(500)); // 500 msec の短い処理 を待ったら完了する
+        await Task.Delay(5); // 5 msec の短い処理 を待ったら完了する
         Console.WriteLine("MethodB Completed.");
     }
 
