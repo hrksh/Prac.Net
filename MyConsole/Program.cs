@@ -10,9 +10,9 @@ using MyConsole.Prac.DesignPattern.Behavior;
 
 var obj = new MyClass();
 
-obj.MethodA();
+Task TaskA = obj.MethodA(); // TaskA として 待てるようにしたい
 obj.MethodB();
-obj.MethodC();
+obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
 
 System.Console.ReadLine();
 
