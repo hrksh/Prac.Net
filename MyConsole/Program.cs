@@ -10,8 +10,9 @@ using MyConsole.Prac.DesignPattern.Behavior;
 
 var obj = new MyClass();
 Task TaskA = obj.MethodA(); // TaskA が受け取れるよう非同期メソッド化
-await obj.MethodB();
 await obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
+obj.MethodB();
+
 System.Console.ReadLine();
 
 class MyClass()
@@ -31,11 +32,10 @@ class MyClass()
         Console.WriteLine("MethodA Completed.");
     }
 
-    public async Task MethodB()
+    public void MethodB()
     {
         // MethodA を待たずに終わらせたい処理
         Console.WriteLine("MethodB Started.");
-        await Task.Delay(5); // 5 msec の短い処理 を待ったら完了する
         Console.WriteLine("MethodB Completed.");
     }
 
