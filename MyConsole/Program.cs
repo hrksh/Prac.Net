@@ -10,7 +10,7 @@ using MyConsole.Prac.DesignPattern.Behavior;
 
 var obj = new MyClass();
 
-Task TaskA = obj.MethodA(); // TaskA として 待てるようにしたい
+Task TaskA = obj.MethodA(); // TaskA が受け取れるよう非同期メソッド化
 obj.MethodB();
 obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待たせる
 
@@ -30,10 +30,21 @@ class MyClass()
 {
     // 非同期処理の練習用
 
-    public void MethodA()
+    public async Task MethodA()
     {
-        // 待ちたい処理
-        Console.WriteLine("MethodA Completed.");
+        // 待ちたい処理 が Task化できた。
+        // await => 指定されてる処理を待たせるような感じ・・・
+        // これなら、この処理が終わるまではこのタスクは待つ
+        await Task.Run(() =>
+        {
+            // 5秒間 待機する処理
+            for (int i = 1; i <= 5; i++)
+            {
+                Task.Delay(1000);
+                Console.WriteLine(i);
+            }
+            Console.WriteLine("MethodA Completed.");
+        });
     }
 
     public void MethodB()
@@ -42,7 +53,7 @@ class MyClass()
         Console.WriteLine("MethodB Completed.");
     }
 
-    public void MethodC()
+    public void MethodC(Task task)
     {
         // MethodA を待ってから完了させたい処理
         Console.WriteLine("MethodC Completed.");
