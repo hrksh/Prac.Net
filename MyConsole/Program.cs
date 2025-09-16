@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using MyConsole.Prac.DesignPattern;
 using MyConsole.Prac.DesignPattern.Behavior;
 
 // See https://aka.ms/new-console-template for more information
 // System.Console.WriteLine("Hello World!");
 
-
 // おテスト
 
-var obj = new MyClass();
-Task TaskA = obj.MethodA(); // TaskA (待機したい処理1)
-await obj.Something(); // 待機しなくていいがこれも重い処理
-Task TaskC = obj.MethodC(TaskA); // TaskA を待ってから 完了させたいので、TaskA を渡して待っている
-await obj.MethodB(); // C が Aの完了をまっているが、この処理は開始して終わらせたい
-await TaskC; // C の呼び出しの await は外して、TaskCとして取り出した。これをBの後で待たせる
+int binary1 = 0b0000_0000_0111_0000;
+int binary2 = 0b1001_0100_0111_0000;
+int part = (binary2 >> 10) & ((1 >> 6) - 1);
+bool bitON = part != 0;
+
+Console.WriteLine("Part:");
+Console.WriteLine(Convert.ToString(part, 2).PadLeft(32, '0'));
+Console.WriteLine($"Bit is {bitON}");
+
 
 System.Console.ReadLine();
 
-class MyClass()
+class MyAsyncClass()
 {
     // 非同期処理の練習用
 
@@ -57,4 +60,16 @@ class MyClass()
     }
 }
 
+class MyBitClass()
+{
+    public MyBitClass(int number) : this()
+    {
+        Console.WriteLine(number);
+    }
+
+    public void Show32bitString(int target)
+    {
+        Console.WriteLine(Convert.ToString(target, 2).PadLeft(32,'0'));
+    }
+}
 
