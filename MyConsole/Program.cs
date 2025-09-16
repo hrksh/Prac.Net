@@ -8,15 +8,25 @@ using MyConsole.Prac.DesignPattern.Behavior;
 
 // おテスト
 
+int number = 3;
+
+// Conversion int to string(binary)
+string binaryNumber = Convert.ToString(number, 2).PadLeft(32, '0');
+Console.WriteLine(binaryNumber);
+
+// Conversion string(binary) to int
+Console.WriteLine(Convert.ToInt32(binaryNumber, 2));
+
 int binary1 = 0b0000_0000_0111_0000;
 int binary2 = 0b1001_0100_0111_0000;
-int part = (binary2 >> 10) & ((1 >> 6) - 1);
+
+int mask = ((1 >> 6) - 1);
+int part = (binary2 >> 10) & mask;
 bool bitON = part != 0;
 
 Console.WriteLine("Part:");
 Console.WriteLine(Convert.ToString(part, 2).PadLeft(32, '0'));
 Console.WriteLine($"Bit is {bitON}");
-
 
 System.Console.ReadLine();
 
