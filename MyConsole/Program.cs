@@ -8,25 +8,8 @@ using MyConsole.Prac.DesignPattern.Behavior;
 
 // おテスト
 
-int number = 3;
-
-// Conversion int to string(binary)
-string binaryNumber = Convert.ToString(number, 2).PadLeft(32, '0');
-Console.WriteLine(binaryNumber);
-
-// Conversion string(binary) to int
-Console.WriteLine(Convert.ToInt32(binaryNumber, 2));
-
-int binary1 = 0b0000_0000_0111_0000;
-int binary2 = 0b1001_0100_0111_0000;
-
-int mask = ((1 >> 6) - 1);
-int part = (binary2 >> 10) & mask;
-bool bitON = part != 0;
-
-Console.WriteLine("Part:");
-Console.WriteLine(Convert.ToString(part, 2).PadLeft(32, '0'));
-Console.WriteLine($"Bit is {bitON}");
+var obj = new MyBitController(573);
+obj.VerifyBit(obj.Input, 6, 4);
 
 System.Console.ReadLine();
 
@@ -70,16 +53,61 @@ class MyAsyncClass()
     }
 }
 
-class MyBitClass()
+
+
+public class MyBitController
 {
-    public MyBitClass(int number) : this()
+    private string _binary = string.Empty;
+    public string Binary => this._binary;
+    private int _input = 0;
+    public int Input => this._input;
+
+    private const int _maxbit = 32;
+
+    private MyBitController() {}
+
+    public MyBitController(int num)
     {
-        Console.WriteLine(number);
+        this._input = num;
+        this._binary = ToBin32((uint)num);
+        this.ShowCurrentNumber();
+        this.ShowBinaryString();
     }
 
-    public void Show32bitString(int target)
+    public void ShowCurrentNumber() => Console.WriteLine($"input:  {this._input}");
+    public void ShowBinaryString() => Console.WriteLine($"binary: {this._binary}");
+
+    public static string ToBin32(uint v) => Convert.ToString(v, 2).PadLeft(_maxbit, '0');
+    public static string ToBin(uint v, int width) => Convert.ToString(v, 2).PadLeft(width, '0');
+
+    public static int FromBin(string binary) => Convert.ToInt32(binary, 2);
+
+    public bool VerifyBit(int target, int startbit, int bitLength)
     {
-        Console.WriteLine(Convert.ToString(target, 2).PadLeft(32,'0'));
+        // --- Guard ---
+        if (startbit < 0 || bitLength <= 0 || startbit >= _maxbit) 
+            throw new ArgumentOutOfRangeException(nameof(startbit), "startbitは0〜31");
+        if (bitLength > _maxbit) 
+            throw new ArgumentOutOfRangeException(nameof(bitLength), "bitLengthは1〜32");
+        if (startbit + bitLength > _maxbit) 
+            Console.WriteLine($"[warn] 範囲が32ビットを跨ぎます: start={startbit}, len={bitLength}");
+
+        uint u = unchecked((uint)target);
+
+        // 論理右シフト（intの算術右シフトを避ける）
+        uint shifted = u >> startbit;
+
+        // 32ビット対応のマスク
+        uint mask = (bitLength == 32) ? 0xFFFF_FFFFu : ((1u << bitLength) - 1u);
+
+        uint extracted = shifted & mask;
+        bool anySet = extracted != 0;
+
+        Console.WriteLine($"target : {ToBin32(u)}");
+        Console.WriteLine($"shift  : {ToBin32(shifted)}  (>> {startbit})");
+        Console.WriteLine($"mask   : {ToBin(mask, bitLength)}  (len={bitLength})");
+        Console.WriteLine($"select : {ToBin(extracted, bitLength)}  => {(anySet ? "true" : "false")}");
+
+        return anySet;
     }
 }
-
