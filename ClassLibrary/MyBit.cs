@@ -1,6 +1,6 @@
 ﻿namespace ClassLibrary;
 
-public class MyBitController
+public class MyBit
 {
     private string _binary = string.Empty;
     public string Binary => this._binary;
@@ -9,9 +9,9 @@ public class MyBitController
 
     private const int _maxbit = 32;
 
-    private MyBitController() {}
+    private MyBit() {}
 
-    public MyBitController(int num)
+    public MyBit(int num)
     {
         this._input = num;
         this._binary = ToBin32((uint)num);
