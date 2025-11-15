@@ -4,14 +4,13 @@ namespace MyConsole.Prac.DesignPattern;
 
 // 一連でやってきたこれらは、StrategyPattern
 
-
 /// <summary>
 /// カモ基底クラス
 /// </summary>
 public abstract class Duck
 {
-    public  IQuackBehavior QuackBehavior { get; set; }
-    public IFlyBehavior FlyBehavior { get; set; }
+    public IQuackBehavior? QuackBehavior { get; set; }
+    public IFlyBehavior? FlyBehavior { get; set; }
 
     public abstract void Display();
 
@@ -27,12 +26,11 @@ public abstract class Duck
     public void SetQuackBehavior(IQuackBehavior behavior) => QuackBehavior = behavior;
     
     // 継承先のクラスが利用するインターフェイスに委譲させる
-    public bool Quack()
+    public bool? Quack()
     {
-        return QuackBehavior.Quack();
+        return QuackBehavior?.Quack();
     }
-    public bool Fly()
+    public bool? Fly()
     {
-        return FlyBehavior.Fly();
-    }
+        return FlyBehavior?.Fly(); }
 }
